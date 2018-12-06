@@ -209,7 +209,11 @@ if(FLB_SHARED_LIB)
     PROPERTIES OUTPUT_NAME fluent-bit)
 
   # Library install routines
-  install(TARGETS fluent-bit-shared LIBRARY DESTINATION lib)
+  if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+    install(TARGETS fluent-bit-shared RUNTIME DESTINATION lib)
+  else()
+    install(TARGETS fluent-bit-shared LIBRARY DESTINATION lib)
+  endif()
 endif()
 
 # Static Library
