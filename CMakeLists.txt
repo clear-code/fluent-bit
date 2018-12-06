@@ -183,6 +183,12 @@ if(FLB_OUT_GELF)
   endif()
 endif()
 
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+  set(FLB_REGEX     Off)
+  set(FLB_BACKTRACE Off)
+  set(FLB_LUAJIT    Off)
+endif()
+
 # Macro to set definitions
 macro(FLB_DEFINITION var)
   add_definitions(-D${var})
