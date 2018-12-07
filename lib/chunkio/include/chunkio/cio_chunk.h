@@ -20,8 +20,17 @@
 #ifndef CIO_CHUNK_H
 #define CIO_CHUNK_H
 
-#include <unistd.h>
 #include <inttypes.h>
+#ifdef _WIN32
+#  include <sys/types.h>
+#  include <windows.h>
+#  ifndef _SSIZE_T_DEFINED
+#    define ssize_t SSIZE_T
+#    define _SSIZE_T_DEFINED
+#  endif
+#else
+#  include <unistd.h>
+#endif
 
 struct cio_chunk {
     int lock;                 /* locked for write operations ? */
