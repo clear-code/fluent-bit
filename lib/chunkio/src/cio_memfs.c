@@ -24,6 +24,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
+#ifdef _WIN32
+#  include <windows.h>
+#  ifndef PATH_MAX
+#  define PATH_MAX MAX_PATH
+#  endif
+#endif
 
 struct cio_memfs *cio_memfs_open(struct cio_ctx *ctx, struct cio_stream *st,
                                  struct cio_chunk *ch, int flags,
