@@ -21,11 +21,17 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
+#ifdef _WIN32
+#  include <windows.h>
+#  include <imagehlp.h>
+#  pragma comment(lib, "imagehlp.lib")
+#else
+#  include <unistd.h>
+#  include <libgen.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <libgen.h>
 
 /* Check if a path is a directory */
 int cio_os_isdir(const char *dir)
@@ -45,6 +51,15 @@ int cio_os_isdir(const char *dir)
     return -1;
 }
 
+#ifdef _WIN32
+int cio_os_mkpath(const char *dir)
+{
+    if (!MakeSureDirectoryPathExists(dir))
+        return -1;
+
+    return 0;
+}
+#else
 /* Create directory */
 int cio_os_mkpath(const char *dir, mode_t mode)
 {
@@ -68,3 +83,4 @@ int cio_os_mkpath(const char *dir, mode_t mode)
     free(dup_dir);
     return mkdir(dir, mode);
 }
+#endif

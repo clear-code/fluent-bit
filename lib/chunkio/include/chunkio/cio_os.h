@@ -21,6 +21,10 @@
 #define CIO_OS_H
 
 int cio_os_isdir(const char *dir);
+#ifdef _WIN32
+int cio_os_mkpath(const char *dir);
+#else
 int cio_os_mkpath(const char *dir, mode_t mode);
+#endif
 
 #endif

@@ -19,7 +19,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 #include <string.h>
 
 #include <chunkio/chunkio.h>
@@ -41,7 +43,11 @@ static int check_root_path(struct cio_ctx *ctx, const char *root_path)
     ret = cio_os_isdir(root_path);
     if (ret == -1) {
         /* Try to create the path */
+#ifdef _WIN32
+        ret = cio_os_mkpath(root_path);
+#else
         ret = cio_os_mkpath(root_path, 0755);
+#endif
         if (ret == -1) {
             return -1;
         }
