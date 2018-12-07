@@ -209,11 +209,9 @@ if(FLB_SHARED_LIB)
     PROPERTIES OUTPUT_NAME fluent-bit)
 
   # Library install routines
-  if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    install(TARGETS fluent-bit-shared RUNTIME DESTINATION lib)
-  else()
-    install(TARGETS fluent-bit-shared LIBRARY DESTINATION lib)
-  endif()
+  install(TARGETS fluent-bit-shared
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 
 # Static Library
@@ -260,7 +258,7 @@ if(FLB_BINARY)
     PROPERTIES
     OUTPUT_NAME ${FLB_OUT_NAME}
     ENABLE_EXPORTS ON)
-  install(TARGETS fluent-bit-bin RUNTIME DESTINATION ${CMAKE_INSTALL_FULL_BINDIR})
+  install(TARGETS fluent-bit-bin RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
   # Detect init system, install upstart, systemd or init.d script
   if(IS_DIRECTORY /usr/share/upstart)
