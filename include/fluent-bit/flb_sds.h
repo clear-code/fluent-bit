@@ -32,14 +32,21 @@
 #include <inttypes.h>
 
 #define FLB_SDS_HEADER_SIZE (sizeof(uint64_t) + sizeof(uint64_t))
+#ifdef __GNUC__
+#define PACKED( class_to_pack ) class_to_pack __attribute__((__packed__))
+#elif _MSC_VER
+#define PACKED( class_to_pack ) __pragma( pack(push, 1) ) class_to_pack __pragma( pack(pop) )
+#endif
 
 typedef char *flb_sds_t;
 
+PACKED(
 struct flb_sds {
     uint64_t len;        /* used */
     uint64_t alloc;      /* excluding the header and null terminator */
     char buf[];
-} __attribute__ ((__packed__));
+}
+);
 
 #define FLB_SDS_HEADER(s)  ((struct flb_sds *) (s - FLB_SDS_HEADER_SIZE))
 
