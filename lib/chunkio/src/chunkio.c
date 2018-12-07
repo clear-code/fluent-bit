@@ -19,8 +19,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#ifndef _WIN32
-#include <unistd.h>
+#ifdef _WIN32
+#  include <io.h>
+# define access _access
+# define W_OK 06
+#else
+#  include <unistd.h>
 #endif
 #include <string.h>
 

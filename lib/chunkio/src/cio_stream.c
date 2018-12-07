@@ -20,7 +20,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
+#ifdef _WIN32
+#  include <io.h>
+# define access _access
+# define W_OK 06
+#else
+#  include <unistd.h>
+#endif
 
 #include <chunkio/chunkio.h>
 #include <chunkio/cio_os.h>
@@ -52,8 +58,12 @@ static int check_stream_path(struct cio_ctx *ctx, const char *path)
 
     ret = cio_os_isdir(p);
     if (ret == -1) {
+#ifdef _WIN32
+        ret = cio_os_mkpath(p);
+#else
         /* Try to create the path */
         ret = cio_os_mkpath(p, 0755);
+#endif
         if (ret == -1) {
             cio_log_error(ctx, "cannot create stream path %s", p);
             free(p);
