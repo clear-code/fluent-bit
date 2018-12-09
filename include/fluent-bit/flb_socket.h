@@ -29,7 +29,6 @@
 #else
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <unistd.h>
 #define flb_sockfd_t         int
 #define flb_socket_close(fd) close(fd)
 #define flb_socket_error(fd) errno
