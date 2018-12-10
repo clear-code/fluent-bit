@@ -18,11 +18,11 @@
  */
 
 #include <msgpack.h>
+#include <fluent-bit/flb_compat.h>
 #include <fluent-bit/flb_macros.h>
 #include <fluent-bit/flb_log.h>
 #include <fluent-bit/flb_time.h>
 
-#include <arpa/inet.h>
 #include <string.h>
 
 #define ONESEC_IN_NSEC 1000000000
