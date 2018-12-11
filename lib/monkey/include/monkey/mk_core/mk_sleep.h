@@ -25,6 +25,7 @@
 #ifdef __GNUC__      /* Heaven */
 #include <time.h>
 #include <unistd.h>
+
 #elif _WIN32        /* Not Heaven */
 
 /* WIN32 conversion */
@@ -34,7 +35,7 @@
 #include <windows.h>	/* WinAPI */
 
 /* Windows sleep in 100ns units */
-static inline BOOLEAN nanosleep(LONGLONG ns){
+static inline BOOLEAN usleep(LONGLONG ns){
 	/* Declarations */
 	HANDLE timer;	/* Timer handle */
 	LARGE_INTEGER li;	/* Time defintion */
