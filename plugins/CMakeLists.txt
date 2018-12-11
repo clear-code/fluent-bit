@@ -154,6 +154,8 @@ REGISTER_FILTER_PLUGIN("filter_throttle")
 if(FLB_REGEX)
   REGISTER_FILTER_PLUGIN("filter_kubernetes")
   REGISTER_FILTER_PLUGIN("filter_parser")
+  REGISTER_FILTER_PLUGIN("filter_nest")
+  REGISTER_FILTER_PLUGIN("filter_modify")
 endif()
 
 if(FLB_LUAJIT)
@@ -161,8 +163,6 @@ if(FLB_LUAJIT)
 endif()
 
 REGISTER_FILTER_PLUGIN("filter_record_modifier")
-REGISTER_FILTER_PLUGIN("filter_nest")
-REGISTER_FILTER_PLUGIN("filter_modify")
 
 # Register external input and output plugins
 if(EXT_IN_PLUGINS)
