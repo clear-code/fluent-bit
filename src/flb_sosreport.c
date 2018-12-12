@@ -27,6 +27,13 @@
 #include <fluent-bit/flb_version.h>
 #include <fluent-bit/flb_utils.h>
 
+#ifdef _WIN32
+int flb_sosreport(struct flb_config *config)
+{
+    printf("sosreport is not supported on Windows\n");
+    return 0;
+}
+#else
 #include <sys/utsname.h>
 
 static void print_key(char *key)
@@ -262,3 +269,4 @@ int flb_sosreport(struct flb_config *config)
 
     return 0;
 }
+#endif
