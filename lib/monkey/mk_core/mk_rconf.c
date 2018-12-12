@@ -23,7 +23,9 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifndef _MSC_VER
 #include <glob.h>
+#endif
 
 #include <mk_core/mk_rconf.h>
 #include <mk_core/mk_utils.h>
@@ -242,12 +244,16 @@ static int mk_rconf_read(struct mk_rconf *conf, const char *path)
         }
 
         if (len > 9 && strncasecmp(buf, "@INCLUDE ", 9) == 0) {
+#ifdef _MSC_VER
+            ret = mk_rconf_read(conf, buf + 9);
+#else
             if ( strchr(buf + 9, '*') != NULL) {
                 ret = mk_rconf_read_glob(conf, buf + 9);
             }
             else {
                 ret = mk_rconf_read(conf, buf + 9);
             }
+#endif
             if (ret == -1) {
                 conf->level--;
                 fclose(f);
@@ -386,6 +392,7 @@ static int mk_rconf_read(struct mk_rconf *conf, const char *path)
     return 0;
 }
 
+#ifndef _MSC_VER
 static int mk_rconf_read_glob(struct mk_rconf *conf, const char * path)
 {
     int ret = -1;
@@ -432,6 +439,7 @@ static int mk_rconf_read_glob(struct mk_rconf *conf, const char * path)
     globfree(&glb);
     return ret;
 }
+#endif
 
 static int mk_rconf_path_set(struct mk_rconf *conf, char *file)
 {
