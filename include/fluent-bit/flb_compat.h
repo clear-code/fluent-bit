@@ -37,6 +37,15 @@ static inline int getpagesize(void)
     GetSystemInfo(&info);
     return info.dwPageSize;
 }
+
+static inline struct tm *gmtime_r(const time_t *timep, struct tm *result)
+{
+    struct tm *tmp = gmtime(timep);
+    if (!tmp)
+        return NULL;
+    return memcpy(result, tmp, sizeof(struct tm));
+}
+
 #else
 #include <netdb.h>
 #include <netinet/in.h>
